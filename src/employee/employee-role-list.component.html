@@ -1,0 +1,55 @@
+
+<table class="table table-hover" style="margin-bottom: 0px;">
+    <thead>
+        <tr>
+            <th [ngStyle]="{'width.px': roleIdWidth}">roleId</th>
+            <th>description</th>
+            <th [ngStyle]="{'width.px': buttonsWith}">
+                    <button type="button"
+                            class="btn btn-default" title="Add new employee"
+                            (click)="add()">Add</button> 
+            </th>
+        </tr>
+        </thead>         
+</table>
+
+<div class="scrollable-div">
+    <div *ngFor="let role of newRoles" >
+        <add-role *ngIf='role.roleId === 0' [role]="role" [roleIdWidth]="roleIdWidth" [buttonsWith]="buttonsWith" (onSaved)="save($event)"></add-role>
+    </div>
+    <table class="table table-hover" style="margin-bottom: 0px;">
+            <tbody #tbdy>            
+                <tr #tbrow *ngFor='let role of roles'>
+                    <td [ngStyle]="{'width.px': roleIdWidth}" style="vertical-align: middle; height:50px;">
+                        <span >{{role.roleId}}</span>
+                    </td>
+                    <td style="vertical-align: middle; height:50px;"> 
+                    <span *ngIf="!role.edit">{{role.description}}</span>
+                    <form *ngIf="role.edit" class="form-horizontal"
+                            [formGroup]="roleForm" >
+                        <div class="form-group" style="margin-bottom:0px;">
+                            <div  class="col-sm-10">
+                                <input formControlName ="description" type="text" class="form-control" 
+                                    placeholder="Enter new role (Required)" required style=" width:300px;"
+                                    [(ngModel)]="role.description" name="name">
+                            </div>
+                        </div>
+                                        
+                    </form>
+                    </td>
+                    <td style="width:170px; vertical-align: middle; height:50px;" [ngStyle]="{'width.px': buttonsWith}">
+                        <button *ngIf="(!role.edit) && (role.roleId!=1)" class="btn btn-primary" type="button"
+                                (click)="role.edit=true">Edit</button>
+                        <button *ngIf="(!role.edit) && (role.roleId!=1)" type="button" class="btn btn-danger" 
+                                (click)='deleteRole(role.roleId)' 
+                                (click)="tbrow.innerHTML = ''">Delete</button>
+                        <button *ngIf="role.edit" type="button" class="btn btn-success" 
+                                (click)='save(role)'
+                                (click)="role.edit=false">Save</button>
+                        <button *ngIf="role.edit" type="button" class="btn btn-default" 
+                                (click)="role.edit=false">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+    </table>    
+</div>
