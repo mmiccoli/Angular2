@@ -1,0 +1,79 @@
+<div class="panel panel-default ">
+  <div class="panel-heading">
+
+
+    <div style="width:100%;margin:0 auto; padding: 0">
+        <div class="three-col-container">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" [(ngModel)]="togglePhotos" (click)="delayedResizeWork()"> Show photos
+                </label>
+            </div>
+        </div>
+        <div class="text-center three-col-container" style="margin-top: 10px; margin-bottom: 10px;">
+            Employee Table
+        </div>
+        <div class="text-right  three-col-container">
+            <a style="margin-top: 4px; margin-bottom: 4px;" [routerLink]="['/employee', 0]" role="button" class="btn btn-default" title="Add new employee">Add</a>
+        </div>
+    </div>
+    <div style="clear:both">
+    </div>
+   </div>
+   
+      
+  <div class="panel-body data-table-container">
+    <table class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+        <tr>
+            <th [style.width.px]="employeeIdWidth">
+                <mfDefaultSorter by="employeeId">ID</mfDefaultSorter>
+            </th>
+            <th [style.width.px]="firstNameWidth">
+                <mfDefaultSorter by="name">First Name</mfDefaultSorter>
+            </th>
+            <th [style.width.px]="lastNameWidth">
+                <mfDefaultSorter by="surname">Last Name</mfDefaultSorter>
+            </th>
+            <th [style.width.px]="roleWidth">
+                <mfDefaultSorter by="description">Role</mfDefaultSorter>
+            </th>
+             <th [style.width.px]="photoWidth" *ngIf="togglePhotos">
+                <mfDefaultSorter by="">Photo</mfDefaultSorter>
+            </th >
+             <th [style.width.px]="buttonsWidth">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+           <tr #tbrow *ngFor='let employee of employees;  let last = last'>
+            <td #employeeId id="employeeId"><div>{{employee.employeeId}}</div></td>
+            <td id="firstName"><a [routerLink]="['/employee', employee.employeeId]" >{{employee.name}}</a></td>
+            <td id="lastName"><a [routerLink]="['/employee', employee.employeeId]" >{{employee.surname}}</a></td>
+            <td id="role">{{employee.role.description}}</td>
+            <td id="photo" *ngIf="togglePhotos"><img *ngIf="employee.photo" [src]="baseEemployeeImgUrl + '?employeeId=' + employee.employeeId" 
+                title="{{employee.name}} {{employee.surname}}" style="height: 50px;"></td>
+            <td id="buttons">
+                    <a *ngIf="employee.role.roleId != 1" class="btn btn-primary" role="button" [routerLink]="['/employee', employee.employeeId]">Edit</a>
+                    <button *ngIf="employee.role.roleId != 1" type="button" class="btn btn-danger" 
+                            (click)='deleteEmployee(employee)'>Delete</button>
+            </td>         
+          </tr>
+        </tbody>
+        <!--<tfoot>
+        <tr>
+            <td colspan="4">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>-->
+    </table>
+      
+        
+  </div>
+
+
+
+
+
+

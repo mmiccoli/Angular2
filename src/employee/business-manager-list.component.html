@@ -1,0 +1,33 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="width:50px;">employeeId</th>
+            <th>First Name</th>
+            <th>Ladt Name</th>
+            <th>Role</th>
+            <th>Photo</th>
+            <th style="width:140px;"> 
+                    <a [routerLink]="['/employee', 0]"
+                            role="button"
+                            class="btn btn-default" 
+                            title="Add new employee">Add</a> 
+            </th>
+        </tr>
+         </thead>
+        <tbody id="tbodyId">
+            <tr #tbrow *ngFor='let employee of employees'>
+                <td style="vertical-align: middle; height:65px;">{{employee.employeeId}}</td>
+                <td style="vertical-align: middle; height:65px;">{{employee.name}}</td>
+                <td style="vertical-align: middle; height:65px;">{{employee.surname}}</td>
+                <td style="vertical-align: middle; height:65px;">{{employee.role.description}}</td>
+                <td style="vertical-align: middle; height:65px;"><img *ngIf="employee.photo" src="http://127.0.0.1:8080/image?employeeId={{employee.employeeId}}" 
+                         title="{{employee.name}} {{employee.surname}}" style="height: 50px;"></td>
+                <td style="vertical-align: middle; height:65px;">
+                     <a class="btn btn-primary" role="button" [routerLink]="['/employee', employee.employeeId]">Edit</a>
+                     <button type="button" class="btn btn-danger" 
+                             (click)='deleteBusinessManager(employee.employeeId)' 
+                             (click)="tbrow.innerHTML = ''">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+</table>
